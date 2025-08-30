@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "terminal-buddy"
-version = "0.1.0"
+version = "0.1.1"
 description = "A terminal assistant powered by On-Device LLM"
 authors = ["Atharva Choudhary <atharvasteam@gmail.com>"]
 readme = "README.md"
