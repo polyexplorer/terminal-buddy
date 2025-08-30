@@ -129,6 +129,7 @@ websockets = "15.0.1"
 xattr = "1.2.0"
 zipp = "3.23.0"
 zstandard = "0.24.0"
+python-daemon = "^3.1.2"
 
 [tool.poetry.scripts]
 tb = "terminal_buddy.main:main"

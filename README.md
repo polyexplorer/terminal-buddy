@@ -9,7 +9,7 @@ TBuddy is an intelligent terminal assistant that converts natural language queri
 ## 🚀 Features
 
 - **Natural Language to Bash Commands**: Convert plain English descriptions into executable bash commands
-- **On-Device LLM Integration**: Uses Ollama with local models for privacy and speed
+- **On-Device LLM Integration**: Uses Ollama with extremely small sub 1Billion parameter local models for balancing privacy, speed, memory usage and accuracy
 - **Semantic Example Selection**: Leverages vector embeddings to find relevant command examples from a pre-curated list
 - **Dual Operation Modes**: 
   - One-off command generation

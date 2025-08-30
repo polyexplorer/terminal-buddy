@@ -37,7 +37,7 @@ def get_example_selector_template():
         # print(f"Found keys: {examples[0].keys()}")
     embeddings, vector_store = _prepare_resources_for_example_selection()
     
-    example_selector = MaxMarginalRelevanceExampleSelector.from_examples(
+    example_selector = SemanticSimilarityExampleSelector.from_examples(
         # The list of examples available to select from.
         examples,
         # The embedding class used to produce embeddings which are used to measure semantic similarity.
