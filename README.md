@@ -14,7 +14,7 @@ TBuddy is an intelligent terminal assistant that converts natural language queri
 - **Dual Operation Modes**: 
   - One-off command generation
   - Background daemon service for persistent, faster availability
-- **Rich Example Database**: Comprehensive collection of text-to-command examples (available per request)
+- **Rich Example Database**: Comprehensive collection of text-to-command examples (available with repo)
 - **Safe Command Generation**: Focuses on standard, secure and safe bash commands
 
 ## 🏗️ Architecture
@@ -24,16 +24,16 @@ TBuddy is an intelligent terminal assistant that converts natural language queri
 ```
 terminal-buddy/
 ├── src/terminal_buddy/
-│   ├── main.py              # CLI interface and server logic
-│   └── utils/
-│       ├── llm_functions.py     # LLM integration with Ollama
-│       ├── config.py            # Configuration management
-│       ├── prompts.py           # System prompts and templates
-│       ├── example_selection.py # Vector-based example retrieval
-│       └── examples.json        # Command examples database
+│ ├── main.py # CLI interface and server logic
+│ └── utils/
+│ ├── llm_functions.py # LLM integration with Ollama
+│ ├── config.py # Configuration management
+│ ├── prompts.py # System prompts and templates
+│ ├── example_selection.py # Vector-based example retrieval
+│ └── examples.json # Command examples database
 ├── data/examples/
-│   └── text_2_command_examples.json  # Training examples (not included in the repo, but this is where you'd place your own)
-└── tests/                    # Test suite
+│ └── text_2_command_examples.json # Training examples (not included in the repo, but this is where you'd place your own)
+└── tests/ # Test suite
 ```
 
 ### Key Technologies
@@ -54,7 +54,15 @@ terminal-buddy/
 
 ## 🛠️ Installation
 
-### Using Poetry (Recommended)
+### Step 1 - Install Package
+
+#### Using pip installer (Recommended)
+
+```bash
+pip install terminal-buddy
+```
+
+#### Using Poetry (Build Yourself)
 
 ```bash
 # Clone the repository
@@ -68,22 +76,7 @@ poetry install
 poetry install --with dev
 ```
 
-### Using pip
-
-```bash
-# Clone the repository
-git clone <repository-url>
-cd terminal-buddy
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Install in development mode
-pip install -e .
-```
-
-### Setup Ollama Models
-
+### Step 2 - Setup Ollama Models
 ```bash
 # Pull required models
 ollama pull qwen3:0.6b
@@ -92,150 +85,39 @@ ollama pull nomic-embed-text
 
 ## 🚀 Usage
 
-### Command Line Interface
+TBuddy provides a CLI with multiple commands grouped under query, server, and config.
 
-TBuddy provides a simple CLI for generating commands:
+### Query Commands
+##### Generate a command directly
 
-```bash
-# Basic usage
-tb "list all files in current directory"
+`tb query "list all files in current directory"`
 
-# Using the full command
-tb query "show me disk usage"
-
-# Start background service
-tb serve
-```
-
-### Examples
+### Server Management
 
 ```bash
-# File operations
-tb "create a new directory called projects"
-# Output: mkdir projects
+# Start the server in background mode (default)
+tb server up
 
-tb "list all hidden files"
-# Output: ls -a
+# Start the server in foreground mode
+tb server up --no-daemonize
 
-# System information
-tb "check disk space"
-# Output: df -h
+# Stop the server
+tb server down
 
-tb "show running processes"
-# Output: ps aux
-
-# Text processing
-tb "find all .txt files"
-# Output: find . -name "*.txt"
-
-tb "search for 'error' in log files"
-# Output: grep -r "error" *.log
+# Check server status
+tb server status
 ```
-
-### Daemon Mode
-
-For persistent availability, run TBuddy as a background service:
-
-```bash
-# Start the daemon
-tb serve
-
-# In another terminal, send queries
-tb "check memory usage"
+### Configuration Management
 ```
+# Show current configuration
+tb config show
 
-The daemon runs on `127.0.0.1:65432` and automatically handles multiple concurrent requests.
+# Update LLM model
+tb config set-llm-model qwen3:0.6b
 
-## ⚙️ Configuration
+# Update embeddings model
+tb config set-embeddings-model nomic-embed-text
 
-Configuration is managed through the `Config` class in `src/terminal_buddy/utils/config.py`:
-
-```python
-class Config(BaseModel):
-    OLLAMA_MODEL_NAME: str = Field(default="qwen3:0.6b")
-    OLLAMA_EMBEDDINGS_MODEL_NAME: str = Field(default="nomic-embed-text")
-    EXAMPLES_JSON_PATH: str = Field(default="path/to/examples.json")
+# Update examples file path
+tb config set-examples-path ./data/examples/text_2_command_examples.json
 ```
-
-## 🔧 Development
-
-### Project Structure
-
-- **`main.py`**: Entry point with CLI commands and server logic
-- **`utils/llm_functions.py`**: Core LLM integration using Ollama
-- **`utils/example_selection.py`**: Vector-based example retrieval using LangChain
-- **`utils/prompts.py`**: System prompts for command generation
-- **`data/examples/`**: Training data with text-to-command mappings
-
-### Adding New Examples
-
-To improve command generation, add new examples to `data/examples/text_2_command_examples.json`:
-
-```json
-{
-    "user_query": "Your natural language description",
-    "command": "corresponding bash command"
-}
-```
-
-### Running Tests
-
-```bash
-# Run tests
-poetry run pytest
-
-# Run with coverage
-poetry run pytest --cov=terminal_buddy
-```
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-### Development Guidelines
-
-- Follow PEP 8 style guidelines
-- Add tests for new features
-- Update documentation for API changes
-- Use type hints for all functions
-
-## 📊 Performance
-
-- **Response Time**: ~1-3 seconds for command generation
-- **Memory Usage**: ~2-4GB RAM (depending on model size)
-- **Accuracy**: High accuracy for common terminal operations
-- **Safety**: Focuses on standard, safe bash commands
-
-## 🔒 Security
-
-- **Local Processing**: All LLM operations run locally via Ollama
-- **No Data Transmission**: No queries or responses are sent to external services
-- **Safe Commands**: System prompts emphasize safe, standard bash commands
-- **Input Validation**: All inputs are validated before processing
-
-## 📝 License
-
-This project is licensed under the GNU General Public License v3 - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- [Ollama](https://ollama.ai/) for local LLM inference
-- [LangChain](https://langchain.com/) for vector operations and example selection
-- [Typer](https://typer.tiangolo.com/) for the CLI framework
-- [Pydantic](https://pydantic.dev/) for data validation
-
-## 📞 Support
-
-For questions, issues, or contributions:
-
-- Open an issue on GitHub
-- Check the [documentation](docs/)
-- Review existing examples in `data/examples/`
-
----
-
-**Made with ❤️ for the terminal community**
