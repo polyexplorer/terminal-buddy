@@ -2,20 +2,20 @@
 
 [![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
 [![Poetry](https://img.shields.io/badge/poetry-managed-orange.svg)](https://python-poetry.org/)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![License](https://img.shields.io/badge/license-GPL%20v3-blue.svg)](LICENSE)
 
-TBuddy is an intelligent terminal assistant that converts natural language queries into bash commands using on-device Large Language Models (LLMs). It provides both a command-line interface and a daemon service for seamless terminal command generation.
+TBuddy is an intelligent terminal assistant that converts natural language queries into bash commands using on-device (<1B params) Large Language Models (LLMs). It provides both a command-line interface and a daemon service for seamless terminal command generation.
 
 ## 🚀 Features
 
 - **Natural Language to Bash Commands**: Convert plain English descriptions into executable bash commands
 - **On-Device LLM Integration**: Uses Ollama with local models for privacy and speed
-- **Semantic Example Selection**: Leverages vector embeddings to find relevant command examples
+- **Semantic Example Selection**: Leverages vector embeddings to find relevant command examples from a pre-curated list
 - **Dual Operation Modes**: 
   - One-off command generation
-  - Background daemon service for persistent availability
-- **Rich Example Database**: Comprehensive collection of text-to-command examples
-- **Safe Command Generation**: Focuses on standard, safe bash commands
+  - Background daemon service for persistent, faster availability
+- **Rich Example Database**: Comprehensive collection of text-to-command examples (available per request)
+- **Safe Command Generation**: Focuses on standard, secure and safe bash commands
 
 ## 🏗️ Architecture
 
@@ -32,7 +32,7 @@ terminal-buddy/
 │       ├── example_selection.py # Vector-based example retrieval
 │       └── examples.json        # Command examples database
 ├── data/examples/
-│   └── text_2_command_examples.json  # Training examples
+│   └── text_2_command_examples.json  # Training examples (not included in the repo, but this is where you'd place your own)
 └── tests/                    # Test suite
 ```
 
@@ -157,15 +157,6 @@ class Config(BaseModel):
     EXAMPLES_JSON_PATH: str = Field(default="path/to/examples.json")
 ```
 
-### Environment Variables
-
-You can override default settings using environment variables:
-
-```bash
-export OLLAMA_MODEL_NAME="llama3:8b"
-export OLLAMA_EMBEDDINGS_MODEL_NAME="all-minilm-l6-v2"
-```
-
 ## 🔧 Development
 
 ### Project Structure
@@ -228,7 +219,7 @@ poetry run pytest --cov=terminal_buddy
 
 ## 📝 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the GNU General Public License v3 - see the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
