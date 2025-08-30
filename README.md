@@ -29,10 +29,11 @@ terminal-buddy/
 │ ├── llm_functions.py # LLM integration with Ollama
 │ ├── config.py # Configuration management
 │ ├── prompts.py # System prompts and templates
-│ ├── example_selection.py # Vector-based example retrieval
-│ └── examples.json # Command examples database
+│ ├── 
+example retrieval
+│ └── example_selection.py # Vector-based 
 ├── data/examples/
-│ └── text_2_command_examples.json # Training examples (not included in the repo, but this is where you'd place your own)
+│ └── text_2_command_examples.json # Training examples (included in the repo)
 └── tests/ # Test suite
 ```
 
