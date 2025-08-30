@@ -1,0 +1,5 @@
+{
+  "OLLAMA_MODEL_NAME": "qwen3:0.6b",
+  "OLLAMA_EMBEDDINGS_MODEL_NAME": "nomic-embed-text",
+  "EXAMPLES_JSON_PATH": "data/examples/text_2_command_examples.json"
+}

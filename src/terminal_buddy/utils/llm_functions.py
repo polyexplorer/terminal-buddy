@@ -1,9 +1,8 @@
 from ollama import chat
 
-from terminal_buddy.utils.config import Config
+from terminal_buddy.utils.config import config
 from terminal_buddy.utils.prompts import BASIC_COMMAND_PROMPT_TEMPLATE
 
-config = Config()
 
 def get_terminal_command(user_query, mmr_prompt_template):
     messages = [

@@ -7,9 +7,8 @@ import signal
 import subprocess
 import json
 from terminal_buddy.utils.llm_functions import get_terminal_command
-from terminal_buddy.utils.config import Config
+from terminal_buddy.utils.config import config
 
-app_config = Config()
 
 class TBuddyServer:
     """Server class for managing the Terminal Buddy server."""
@@ -192,6 +191,44 @@ app = typer.Typer()
 # Create the server sub-app
 server_app = typer.Typer()
 
+config_app = typer.Typer()
+config 
+
+
+@config_app.command()
+def show():
+    """Show current configuration."""
+    typer.echo("Current Configuration:")
+    typer.echo(f"  LLM Model: {config.OLLAMA_MODEL_NAME}")
+    typer.echo(f"  Embeddings Model: {config.OLLAMA_EMBEDDINGS_MODEL_NAME}")
+    typer.echo(f"  Examples Path: {config.EXAMPLES_JSON_PATH}")
+    typer.echo(f"  Examples Full Path: {config.get_examples_path()}")
+
+
+@config_app.command()
+def set_llm_model(model_name: str = typer.Argument(..., help="Name of the LLM model")):
+    """Set the LLM model name."""
+    old_model = config.OLLAMA_MODEL_NAME
+    config.update_llm_model(model_name)
+    typer.echo(f"✅ LLM model updated: {old_model} → {model_name}")
+
+
+@config_app.command()
+def set_embeddings_model(model_name: str = typer.Argument(..., help="Name of the embeddings model")):
+    """Set the embeddings model name."""
+    old_model = config.OLLAMA_EMBEDDINGS_MODEL_NAME
+    config.update_embeddings_model(model_name)
+    typer.echo(f"✅ Embeddings model updated: {old_model} → {model_name}")
+
+
+@config_app.command()
+def set_examples_path(path: str = typer.Argument(..., help="Path to the examples JSON file")):
+    """Set the examples JSON file path."""
+    old_path = config.EXAMPLES_JSON_PATH
+    config.update_examples_path(path)
+    typer.echo(f"✅ Examples path updated: {old_path} → {path}")
+    typer.echo(f"  Full path: {config.get_examples_path()}")
+
 
 @server_app.command()
 def up(
@@ -240,6 +277,9 @@ def query(query_text: str = typer.Argument(..., help="Query to process")):
 
 # Add the server sub-app to the main app
 app.add_typer(server_app, name="server", help="Server management commands")
+
+# Add the config sub-app to the main app
+app.add_typer(config_app, name="config", help="Configuration management commands")
 
 
 @app.callback()

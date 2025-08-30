@@ -5,10 +5,9 @@ from langchain_core.example_selectors import (
 )
 from langchain_core.prompts import FewShotPromptTemplate, PromptTemplate
 from langchain_ollama import OllamaEmbeddings
-from terminal_buddy.utils.config import Config
+from terminal_buddy.utils.config import config
 import json
 
-config = Config()
 
 
 def _get_chroma_vectorstore():
@@ -31,7 +30,7 @@ def get_example_selector_template():
     )
 
     # Examples of a pretend task of creating antonyms.
-    with open(config.EXAMPLES_JSON_PATH,'r') as f:
+    with open(config.get_examples_path(),'r') as f:
         examples = json.load(f)
         # print(f"Loaded {len(examples)} Examples.")
         # print(f"Found keys: {examples[0].keys()}")
